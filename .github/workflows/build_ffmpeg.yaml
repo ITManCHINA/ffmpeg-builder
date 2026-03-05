@@ -3,7 +3,8 @@ name: Build FFmpeg Static Libraries
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: 
+      - dev
 
 env:
   ANDROID_NDK_VERSION: 26b
