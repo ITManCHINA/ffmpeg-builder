@@ -175,7 +175,7 @@ jobs:
   create_release:
     name: Create GitHub Release
     needs: [build_and_package]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     permissions:
       contents: write
