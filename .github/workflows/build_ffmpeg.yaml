@@ -23,6 +23,13 @@ jobs:
             build_script: ./scripts/build_ffmpeg.sh
             package_extension: tar.gz
 
+          - target: aarch64-unknown-linux-gnu
+            os: ubuntu-24.04-arm
+            arch: arm64
+            artifact_name_suffix: linux-arm64
+            build_script: ./scripts/build_ffmpeg.sh
+            package_extension: tar.gz
+
           - triplet: x64-windows-static-md
             os: windows-latest
             arch: x64
