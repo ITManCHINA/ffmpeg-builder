@@ -139,7 +139,7 @@ elif [[ "$OS_TYPE_LOWER" == "ios" ]]; then
 
     CONFIG_FLAGS+=(
             "--enable-cross-compile"
-            "--target-os=ios"
+            "--target-os=darwin"
             "--arch=arm64"
             "--cc=$CC"
             "--cxx=$CXX"
