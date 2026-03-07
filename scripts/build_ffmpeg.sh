@@ -94,6 +94,21 @@ fi
 
 if [[ "$OS_TYPE_LOWER" == "linux" ]]; then
     echo "Configuring for Linux ($ARTIFACT_SUFFIX)..."
+    CONFIG_FLAGS+=("--target-os=linux")
+    case "$TARGET" in
+        "aarch64-unknown-linux-gnu")
+            CONFIG_FLAGS+=(
+                "--arch=aarch64"
+                "--enable-neon"
+            )
+            ;;
+        "x86_64-unknown-linux-gnu")
+            CONFIG_FLAGS+=(
+                "--arch=x86_64"
+            )
+            ;;
+    esac
+
 elif [[ "$OS_TYPE_LOWER" == "macos" ]]; then
     echo "Configuring for macOS ($ARTIFACT_SUFFIX)..."
     export CC="clang"
