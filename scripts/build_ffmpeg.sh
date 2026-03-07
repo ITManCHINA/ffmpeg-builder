@@ -138,6 +138,7 @@ elif [[ "$OS_TYPE_LOWER" == "ios" ]]; then
     export LDFLAGS="-arch arm64 -isysroot $SDK_PATH -miphoneos-version-min=13.0"
 
     CONFIG_FLAGS+=(
+            "--enable-cross-compile"
             "--target-os=ios"
             "--arch=arm64"
             "--cc=$CC"
