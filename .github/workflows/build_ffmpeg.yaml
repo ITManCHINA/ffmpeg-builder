@@ -3,8 +3,9 @@ name: Build FFmpeg Static Libraries
 on:
   workflow_dispatch:
   push:
-    branches: [main]
-
+    branches:
+      - main
+      - build-ffmpeg-ios
 env:
   ANDROID_NDK_VERSION: 26b
 
@@ -46,6 +47,13 @@ jobs:
             os: macos-14
             arch: arm64
             artifact_name_suffix: macos-arm64
+            build_script: ./scripts/build_ffmpeg.sh
+            package_extension: tar.gz
+
+          - target: aarch64-apple-ios
+            os: macos-14
+            arch: arm64
+            artifact_name_suffix: ios-arm64
             build_script: ./scripts/build_ffmpeg.sh
             package_extension: tar.gz
 
@@ -128,7 +136,7 @@ jobs:
         run: echo "VCPKG_ROOT=D:/vcpkg" >> $GITHUB_ENV
         shell: bash
 
-      - name: Install Build Dependencies (macOS)
+      - name: Install Build Dependencies (macOS/iOS)
         if: runner.os == 'macOS'
         run: brew install yasm nasm pkg-config
 
@@ -136,7 +144,7 @@ jobs:
         if: runner.os != 'Windows' && matrix.build_script
         run: chmod +x ${{ matrix.build_script }}
 
-      - name: Run Build Script (Linux/macOS/Android)
+      - name: Run Build Script (Linux/macOS/Android/iOS)
         if: runner.os != 'Windows' && matrix.build_script
         run: ${{ matrix.build_script }} ${{ matrix.target }} ${{ matrix.artifact_name_suffix }} ${{ runner.os }} ${{ matrix.api_level || '' }}
         env:
@@ -167,7 +175,7 @@ jobs:
   create_release:
     name: Create GitHub Release
     needs: [build_and_package]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/build-ffmpeg-ios'
     runs-on: ubuntu-latest
     permissions:
       contents: write
